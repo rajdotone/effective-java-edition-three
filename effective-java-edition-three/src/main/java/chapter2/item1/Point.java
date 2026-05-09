@@ -10,7 +10,7 @@ public class Point {
     }
     Angle angle;
 
-    public Point(double x, double y) {
+    private Point(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -20,7 +20,7 @@ public class Point {
    * @param phi
    * @param dummy : this is not being used
    * */
-    public Point(double rho, double phi, int dummy) {
+    private Point(double rho, double phi, int dummy) {
         this.x = rho * Math.cos(phi);
         this.y = rho * Math.sin(phi);
     }
@@ -29,7 +29,7 @@ public class Point {
      *    * @param phi
      *    * @param unit : enum is either "deg" or "rad"
      */
-    public Point(double rho, double phi, Angle unit) {
+    private Point(double rho, double phi, Angle unit) {
         switch (unit) {
             case RAD:
                 this.x = rho * Math.cos(phi);
@@ -43,22 +43,31 @@ public class Point {
         }
     }
 
+
+    /*
+    ************************* static factory methods
+    * */
+
+    public static Point fromCartesian(double x, double y) {
+        return new Point(x, y);
+    }
+
+    public static Point formPolar(double rho, double phi, Angle unit) {
+        return new Point(rho, phi, unit);
+    }
+
+    public static Point formPolarRad(double rho, double phi) {
+        return new Point(rho, phi, Angle.RAD);
+    }
+
+    public static Point formPolarDeg(double rho, double phi) {
+        return new Point(rho, phi, Angle.DEG);
+    }
     @Override
     public String toString() {
         return "Point{" +
                 "x=" + x +
                 ", y=" + y +
                 '}';
-    }
-
-    public static void main(String[] args) {
-        var p1 = new Point(1, 2);
-        System.out.println(p1);
-
-        var p2 = new Point(5.0, Math.atan2(4.0, 3.0), -1);
-        System.out.println(p2);
-
-        var p3 = new Point(5.0, Math.atan2(4.0, 3.0), Angle.RAD);
-        System.out.println(p3);
     }
 }
